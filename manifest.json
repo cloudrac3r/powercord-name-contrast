@@ -1,0 +1,8 @@
+{
+	"name": "Name Contrast",
+	"version": "1.0.0",
+	"description": "Replace bad contrast message authors and mentions.",
+	"author": "Cadence#3263",
+	"license": "AGPL-3.0",
+	"optionalDependencies": ["rolecolor-everywhere"]
+}
