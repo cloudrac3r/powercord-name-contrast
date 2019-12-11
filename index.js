@@ -120,12 +120,15 @@ module.exports = class NameContrast extends Plugin {
 		const module = await getModule(["parse", "parseTopic"])
 		const channels = await getModule(["getChannel"])
 		const members = await getModule(["getMember"])
+		const chatModule = await getModule(["chat"])
 
 		// Mentions
 		await inject("name-contrast-mentions", module, "parse", ([original, , {channelId}], res) => {
 			// thanks rolecolor-everywhere, I couldn't have done it without you
 			// (though I guess I wouldn't have needed to have done it without you in the first place)
-			const background = getComputedStyle(document.querySelector(".chat-3bRxxu")).backgroundColor
+			const chat = document.querySelector(`.${chatModule.chat}`)
+			if (!chat) return res
+			const background = getComputedStyle(chat).backgroundColor
 			const backgroundComponents = background.match(/\d+/g).map(c => +c)
 
 			const parsed = [...res]
@@ -180,7 +183,9 @@ module.exports = class NameContrast extends Plugin {
 
 		// Mentions
 		inject("name-contrast-messagegroup", MessageGroup.prototype, "render", function(_, res) {
-			const background = getComputedStyle(document.querySelector(".chat-3bRxxu")).backgroundColor
+			const chat = document.querySelector(`.${chatModule.chat}`)
+			if (!chat) return res
+			const background = getComputedStyle(chat).backgroundColor
 			const backgroundComponents = background.match(/\d+/g).map(c => +c)
 			this.props.messages.forEach(message => {
 				if (message.oldColorString) message.colorString = message.oldColorString
